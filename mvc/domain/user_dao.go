@@ -1,8 +1,10 @@
 package domain
 
 import (
-	"errors"
 	"fmt"
+	"net/http"
+
+	"github.com/Kungfucoding23/microservices-go/mvc/utils"
 )
 
 var (
@@ -12,10 +14,14 @@ var (
 )
 
 // GetUser from domain
-func GetUser(userID int64) (*User, error) {
+func GetUser(userID int64) (*User, *utils.ApplicationError) {
 	//here we connect to the db (using users map as db)
 	if user := users[userID]; user != nil {
 		return user, nil
 	}
-	return nil, errors.New(fmt.Sprintf("User %v was not found", userID))
+	return nil, &utils.ApplicationError{
+		Message: fmt.Sprintf("User %v was not found", userID),
+		StatusCode: http.StatusNotFound,
+		Code: "not_found",
+	}
 }
