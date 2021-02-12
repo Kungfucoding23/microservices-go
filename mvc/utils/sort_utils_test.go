@@ -79,3 +79,10 @@ func BenchmarkSort10000(b *testing.B) {
 		Sort(elements)
 	}
 }
+
+func BenchmarkSort100000(b *testing.B) {
+	elements := getElements(100000)
+	for i := 0; i < b.N; i++ {
+		Sort(elements)
+	}
+}
