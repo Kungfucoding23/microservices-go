@@ -33,7 +33,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		w.Write(jsonValue)
 		return
 	}
-	user, apiErr := services.GetUser(userID)
+	user, apiErr := services.UsersService.GetUser(userID)
 	if apiErr != nil {
 		jsonValue, _ := json.Marshal(apiErr)
 		w.WriteHeader(apiErr.StatusCode)

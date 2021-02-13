@@ -59,6 +59,7 @@ func TestGetElements(t *testing.T) {
 	assert.EqualValues(t, 0, elements[4])
 }
 
+//The benchmark function must run the target code b.N times. During benchmark execution, b.N is adjusted until the benchmark function lasts long enough to be timed reliably.
 func BenchmarkBubbleSort10(b *testing.B) {
 	elements := getElements(10)
 	for i := 0; i < b.N; i++ {

@@ -12,7 +12,7 @@ func TestGetUserNoUserFound(t *testing.T) {
 	//Initialization: in this case I dont need to initialize anything
 
 	//Execution
-	user, err := GetUser(0)
+	user, err := UserDao.GetUser(0)
 
 	//Validation
 	//This line replaces the if sentence
@@ -36,7 +36,7 @@ func TestGetUserNoUserFound(t *testing.T) {
 }
 
 func TestGetUserNoError(t *testing.T) {
-	user, err := GetUser(123)
+	user, err := UserDao.GetUser(123)
 	//I´m not expecting any error
 	assert.Nil(t, err)
 	//and a not nill user
