@@ -1,20 +1,25 @@
 package controllers
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/Kungfucoding23/microservices-go/mvc/services"
 	"github.com/Kungfucoding23/microservices-go/mvc/utils"
+	"github.com/gin-gonic/gin"
 )
 
 // GetUser controller
-func GetUser(w http.ResponseWriter, r *http.Request) {
-	userIDParam := r.URL.Query().Get("user_id")
+func GetUser(c *gin.Context) {
+	userIDParam := c.Param("user_id")
 	if len(userIDParam) < 1 {
-		http.Error(w, "user id is needed", http.StatusBadRequest)
+		apiErr := &utils.ApplicationError{
+			Message:    "user_id is needed",
+			StatusCode: http.StatusBadRequest,
+			Code:       "bad_request",
+		}
+		utils.RespondError(c, apiErr)
 		return
 	}
 	//insert curl localhost:8080/users?user_id=123 to test
@@ -27,25 +32,18 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 			StatusCode: http.StatusBadRequest,
 			Code:       "bad_request",
 		}
-		jsonValue, _ := json.Marshal(apiErr)
-		// Just return the Bad Request to the client.
-		w.WriteHeader(apiErr.StatusCode)
-		w.Write(jsonValue)
+		utils.RespondError(c, apiErr)
 		return
 	}
+	//in this point we have a valid user_id
 	user, apiErr := services.UsersService.GetUser(userID)
 	if apiErr != nil {
-		jsonValue, _ := json.Marshal(apiErr)
-		w.WriteHeader(apiErr.StatusCode)
-		w.Write([]byte(jsonValue))
 		// Handle the err and return to the client
+		utils.RespondError(c, apiErr)
 		return
 	}
-	//return user to client
-	//set header
-	w.Header().Set("Content-Type", "application/json")
+	//by using JSON we set the header as application/json
 	//if i´m located here, i know the userIDParam was valid and the user was found
 	//so i can just return it
-	jsonValue, _ := json.Marshal(user)
-	w.Write(jsonValue)
+	utils.Respond(c, http.StatusOK, user)
 }
