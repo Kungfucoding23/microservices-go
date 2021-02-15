@@ -13,4 +13,4 @@ import github.com/stretchr/testify
 
 ## Microservices architecture implementing github api
 
-![overview](./consuming_external_api/Microservices+architecture.png)
+![overview](./consuming_external_api/src/Microservices+architecture.png)
