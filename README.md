@@ -10,3 +10,7 @@ The ultimate guide to microservices in Go
 import github.com/stretchr/testify
 
 ![overview](./mvc/Testing.jpg)
+
+## Microservices architecture implementing github api
+
+![overview](./consuming_external_api/Microservices+architecture.png)
