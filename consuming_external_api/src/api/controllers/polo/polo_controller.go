@@ -10,7 +10,7 @@ const (
 	polo = "polo"
 )
 
-//PoloController
-func PoloController(c *gin.Context) {
+//MarcoController ..
+func MarcoController(c *gin.Context) {
 	c.String(http.StatusOK, polo)
 }
