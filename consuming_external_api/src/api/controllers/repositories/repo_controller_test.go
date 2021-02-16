@@ -12,7 +12,7 @@ import (
 	"github.com/Kungfucoding23/microservices-go/consuming_external_api/src/api/client/restclient"
 	"github.com/Kungfucoding23/microservices-go/consuming_external_api/src/api/domain/repo"
 	"github.com/Kungfucoding23/microservices-go/consuming_external_api/src/api/utils/errors"
-	"github.com/gin-gonic/gin"
+	"github.com/Kungfucoding23/microservices-go/consuming_external_api/src/api/utils/tests"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -23,9 +23,8 @@ func TestMain(m *testing.M) {
 
 func TestCreateRepoInvalidJSONReq(t *testing.T) {
 	response := httptest.NewRecorder()
-	c, _ := gin.CreateTestContext(response)
 	request, _ := http.NewRequest(http.MethodPost, "/repositories", strings.NewReader(``))
-	c.Request = request
+	c := tests.GetMockedContext(request, response)
 	CreateRepocontroller(c)
 	assert.EqualValues(t, http.StatusBadRequest, response.Code)
 
@@ -37,11 +36,6 @@ func TestCreateRepoInvalidJSONReq(t *testing.T) {
 
 }
 func TestCreateRepoErrorFromGithub(t *testing.T) {
-	response := httptest.NewRecorder()
-	c, _ := gin.CreateTestContext(response)
-	request, _ := http.NewRequest(http.MethodPost, "/repositories", strings.NewReader(`{"name": "testing"}`))
-	c.Request = request
-
 	restclient.FlushMockups()
 	restclient.AddMockup(restclient.Mock{
 		URL:        "https://api.github.com/user/repos",
@@ -53,6 +47,9 @@ func TestCreateRepoErrorFromGithub(t *testing.T) {
 				"documentation_url": "https://developer.github.com/docs"}`)),
 		},
 	})
+	response := httptest.NewRecorder()
+	request, _ := http.NewRequest(http.MethodPost, "/repositories", strings.NewReader(`{"name": "testing"}`))
+	c := tests.GetMockedContext(request, response)
 
 	CreateRepocontroller(c)
 	assert.EqualValues(t, http.StatusUnauthorized, response.Code)
@@ -65,11 +62,6 @@ func TestCreateRepoErrorFromGithub(t *testing.T) {
 
 }
 func TestCreateRepoNoError(t *testing.T) {
-	response := httptest.NewRecorder()
-	c, _ := gin.CreateTestContext(response)
-	request, _ := http.NewRequest(http.MethodPost, "/repositories", strings.NewReader(`{"name": "testing"}`))
-	c.Request = request
-
 	restclient.FlushMockups()
 	restclient.AddMockup(restclient.Mock{
 		URL:        "https://api.github.com/user/repos",
@@ -79,6 +71,9 @@ func TestCreateRepoNoError(t *testing.T) {
 			Body:       ioutil.NopCloser(strings.NewReader(`{"id": 123}`)),
 		},
 	})
+	response := httptest.NewRecorder()
+	request, _ := http.NewRequest(http.MethodPost, "/repositories", strings.NewReader(`{"name": "testing"}`))
+	c := tests.GetMockedContext(request, response)
 
 	CreateRepocontroller(c)
 	assert.EqualValues(t, http.StatusCreated, response.Code)
