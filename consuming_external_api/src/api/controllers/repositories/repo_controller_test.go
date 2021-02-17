@@ -25,7 +25,7 @@ func TestCreateRepoInvalidJSONReq(t *testing.T) {
 	response := httptest.NewRecorder()
 	request, _ := http.NewRequest(http.MethodPost, "/repositories", strings.NewReader(``))
 	c := tests.GetMockedContext(request, response)
-	CreateRepocontroller(c)
+	CreateRepoController(c)
 	assert.EqualValues(t, http.StatusBadRequest, response.Code)
 
 	apiError, err := errors.NewAPIErrorFromBytes(response.Body.Bytes())
@@ -51,7 +51,7 @@ func TestCreateRepoErrorFromGithub(t *testing.T) {
 	request, _ := http.NewRequest(http.MethodPost, "/repositories", strings.NewReader(`{"name": "testing"}`))
 	c := tests.GetMockedContext(request, response)
 
-	CreateRepocontroller(c)
+	CreateRepoController(c)
 	assert.EqualValues(t, http.StatusUnauthorized, response.Code)
 
 	apiError, err := errors.NewAPIErrorFromBytes(response.Body.Bytes())
@@ -75,7 +75,7 @@ func TestCreateRepoNoError(t *testing.T) {
 	request, _ := http.NewRequest(http.MethodPost, "/repositories", strings.NewReader(`{"name": "testing"}`))
 	c := tests.GetMockedContext(request, response)
 
-	CreateRepocontroller(c)
+	CreateRepoController(c)
 	assert.EqualValues(t, http.StatusCreated, response.Code)
 
 	var result repo.CreateRepoResponse

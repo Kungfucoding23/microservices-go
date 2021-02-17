@@ -17,3 +17,5 @@
 .idea
 .DS_STORE
 introduction/
+concurrency/
+concurrency.jpg
