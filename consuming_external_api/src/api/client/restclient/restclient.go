@@ -22,7 +22,7 @@ type Mock struct {
 }
 
 //GetMockID gets the mock id
-func GetMockID(httpMethod, url string) string {
+func GetMockID(httpMethod string, url string) string {
 	return fmt.Sprintf("%s_%s", httpMethod, url)
 }
 

@@ -10,8 +10,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//CreateRepocontroller controller
-func CreateRepocontroller(c *gin.Context) {
+//CreateRepoController controller
+func CreateRepoController(c *gin.Context) {
 	var request repo.CreateRepoRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
 		apiErr := errors.NewBadRequestError("Invalid json body")
@@ -28,4 +28,24 @@ func CreateRepocontroller(c *gin.Context) {
 	}
 	//return the result
 	c.JSON(http.StatusCreated, result)
+}
+
+//CreateReposController controller
+func CreateReposController(c *gin.Context) {
+	var request []repo.CreateRepoRequest
+	if err := c.ShouldBindJSON(&request); err != nil {
+		apiErr := errors.NewBadRequestError("Invalid json body")
+		c.JSON(apiErr.Status(), apiErr)
+		return
+	}
+
+	// clientId := c.GetHeader("X-Client-Id")
+
+	result, err := services.RepoService.CreateRepos(request)
+	if err != nil {
+		c.JSON(err.Status(), err)
+		return
+	}
+	//return the result
+	c.JSON(result.StatusCode, result)
 }

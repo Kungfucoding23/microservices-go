@@ -8,6 +8,10 @@ type ErrorResponse struct {
 	DocumentationURL string         `json:"documentation_url"`
 }
 
+// func (r ErrorResponse) Error() string {
+// 	return r.Message
+// }
+
 //ErrorsGithub is the error struct
 type ErrorsGithub struct {
 	Resource string `json:"resource"`
