@@ -15,5 +15,6 @@ import github.com/stretchr/testify
 
 ![overview](./consuming_external_api/src/Microservices+architecture.png)
 
+## Creating OAuth authentication microservice
 
-![overview](./scaling+microservices.png)
+![overview](./Authentication+diagram.png)
