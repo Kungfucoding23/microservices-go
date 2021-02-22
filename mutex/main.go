@@ -12,23 +12,27 @@ var (
 	atomicCounter = AtomicInt{}
 )
 
+//AtomicInt ...
 type AtomicInt struct {
 	value int
 	lock  sync.Mutex
 }
 
+//Increase ..
 func (i *AtomicInt) Increase() {
 	i.lock.Lock()
 	defer i.lock.Unlock()
 	i.value++
 }
 
+// Decrease ..
 func (i *AtomicInt) Decrease() {
 	i.lock.Lock()
 	defer i.lock.Unlock()
 	i.value--
 }
 
+//Value ..
 func (i *AtomicInt) Value() int {
 	i.lock.Lock()
 	defer i.lock.Unlock()
