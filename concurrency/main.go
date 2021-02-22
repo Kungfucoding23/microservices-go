@@ -46,7 +46,7 @@ func getRequests() []repo.CreateRepoRequest {
 }
 
 func createRepo(buffer chan bool, output chan createRepoResult, request repo.CreateRepoRequest) {
-	result, err := services.RepoService.CreateRepo(request)
+	result, err := services.RepoService.CreateRepo("client_id", request)
 
 	output <- createRepoResult{
 		Request: request,
