@@ -22,7 +22,7 @@ func TestMain(m *testing.M) {
 func TestCreateRepoInvalidName(t *testing.T) {
 	request := repo.CreateRepoRequest{}
 
-	result, err := RepoService.CreateRepo(request)
+	result, err := RepoService.CreateRepo("client_id", request)
 	assert.Nil(t, result)
 	assert.NotNil(t, err)
 	assert.EqualValues(t, http.StatusBadRequest, err.Status())
@@ -42,7 +42,7 @@ func TestCreateRepoErrorFromGithub(t *testing.T) {
 	})
 	request := repo.CreateRepoRequest{Name: "testing"}
 
-	result, err := RepoService.CreateRepo(request)
+	result, err := RepoService.CreateRepo("client_id", request)
 
 	assert.Nil(t, result)
 	assert.NotNil(t, err)
@@ -63,7 +63,7 @@ func TestCreateRepoNoError(t *testing.T) {
 	})
 	request := repo.CreateRepoRequest{Name: "testing"}
 
-	result, err := RepoService.CreateRepo(request)
+	result, err := RepoService.CreateRepo("client_id", request)
 
 	assert.Nil(t, err)
 	assert.NotNil(t, result)

@@ -19,9 +19,9 @@ func CreateRepoController(c *gin.Context) {
 		return
 	}
 
-	// clientId := c.GetHeader("X-Client-Id")
+	clientID := c.GetHeader("X-Client-Id")
 
-	result, err := services.RepoService.CreateRepo(request)
+	result, err := services.RepoService.CreateRepo(clientID, request)
 	if err != nil {
 		c.JSON(err.Status(), err)
 		return
@@ -39,7 +39,7 @@ func CreateReposController(c *gin.Context) {
 		return
 	}
 
-	// clientId := c.GetHeader("X-Client-Id")
+	// clientID := c.GetHeader("X-Client-Id")
 
 	result, err := services.RepoService.CreateRepos(request)
 	if err != nil {
